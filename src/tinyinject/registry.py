@@ -4,7 +4,7 @@ _registry_data = {}
 class Registry:
     @staticmethod
     def implements(*, interface: type):
-        def wrapper(implementation: type):
+        def wrapper(implementation: type | object):
             _registry_data[interface] = implementation
             return implementation
 
