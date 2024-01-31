@@ -17,3 +17,8 @@ build-backend = "setuptools.build_meta"
 
 [tool.pdm]
 distribution = true
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "pytest>=8.0.0",
+]
