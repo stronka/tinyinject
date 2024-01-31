@@ -1,6 +1,12 @@
 # tinyinject
 A minimalistic protocol driven dependency injection framework for python.
 
+## Installation
+
+```commandline
+python -m pip install tinyinject
+```
+
 ## Examples
 
 ### Registering implementation to the DI registry
