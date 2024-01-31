@@ -1,1 +1,6 @@
-from .registry import Registry  # noqa
+from .registry import Registry
+from .require import Require  # noqa
+from .require import require_kwargs  # noqa
+
+
+di = Registry()
