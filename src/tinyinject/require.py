@@ -1,6 +1,5 @@
-from src.tinyinject.registry import di
+from .registry import di
 import functools as fn
-
 
 
 class Require:

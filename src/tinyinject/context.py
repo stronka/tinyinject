@@ -1,5 +1,5 @@
 from contextlib import contextmanager
-from src.tinyinject.registry import di
+from .registry import di
 
 
 @contextmanager
