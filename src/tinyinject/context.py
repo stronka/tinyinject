@@ -1,12 +1,10 @@
 from contextlib import contextmanager
-from src.tinyinject import Registry
-
-_registry = Registry()
+from src.tinyinject.registry import di
 
 
 @contextmanager
 def override(interface, *, using: type | object):
-    previous = _registry.get(interface)
-    _registry.implements(interface=interface)(using)
+    previous = di.get(interface)
+    di.implements(interface=interface)(using)
     yield
-    _registry.implements(interface=interface)(previous)
+    di.implements(interface=interface)(previous)

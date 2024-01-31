@@ -21,3 +21,6 @@ class Registry:
             return maybe_type()
 
         return maybe_type
+
+
+di = Registry()
