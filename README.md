@@ -12,7 +12,7 @@ python -m pip install tinyinject
 ### Registering implementation to the DI registry
 
 ```python
-# protocols.py
+# package/protocols.py
 from typing import Protocol
 
 
@@ -21,7 +21,7 @@ class Arithmetic(Protocol):
         ...
     
 
-# providers.py
+# package/providers.py
 from tinyinject import di
 from .protocols import Arithmetic
 
@@ -30,17 +30,22 @@ from .protocols import Arithmetic
 class _ArithmeticImplementation:
     def sum(self, a: int, b: int) -> int:
         return a + b
+
+
+# package/__init__.py
+# IMPORTANT: this ensures provider gets registered in the DI
+from . import providers  # noqa
 ```
 
-### Requesting dependencies via `Request` descriptor
+### Requesting dependencies via `Require` descriptor
 ```python
 # main.py
-from tinyinject import Request
-from .protocols import Arithmetic
+from tinyinject import Require
+from package.protocols import Arithmetic
 
 
 class App:
-    _dependency: Arthmetic = Request(Arithmetic)
+    _dependency: Arthmetic = Require(Arithmetic)
     
     def format_sum(self, a: int, b: int):
         print(f"Sum of {a} and {b} is {self._dependency.sum(a, b)}")
@@ -50,11 +55,11 @@ class App:
 ### Requesting dependencies via `request_kwargs` decorator
 ```python
 # main.py
-from tinyinject import request_kwargs
-from .protocols import Arithmetic
+from tinyinject import require_kwargs
+from package.protocols import Arithmetic
 
 
-@inject_kwargs(dependency=Arithmetic)
+@require_kwargs(dependency=Arithmetic)
 def format_sum(self, a: int, b: int, *, dependency: Arithmetic):
     print(f"Sum of {a} and {b} is {dependency.sum(a, b)}")
 ```
@@ -62,7 +67,7 @@ def format_sum(self, a: int, b: int, *, dependency: Arithmetic):
 
 ### Dependency Injection of functions
 ```python
-# protocols.py
+# package/protocols.py
 from typing import Protocol
 
 
@@ -71,7 +76,7 @@ class Sum(Protocol):
         ...
     
     
-# providers.py
+# package/providers.py
 from tinyinject import di
 from .protocols import Sum
 
@@ -81,13 +86,17 @@ def sum_func(a: int, b: int) -> int:
     return a + b
 
 
+# package/__init__.py
+from . import providers  # noqa
+
+
 # main.py
-from tinyinject import Request
-from .protocols import Sum
+from tinyinject import Require
+from package.protocols import Sum
 
 
 class App:
-    _sum: Sum = Request(Sum)
+    _sum: Sum = Require(Sum)
     
     def format_sum(self, a: int, b: int) -> int:
         print(f"Sum of {a} and {b} is {self._sum(a, b)}")
@@ -102,10 +111,9 @@ of the provider is necessary.
 ```python
 # test_sum.py
 from unittest import mock
-from protocols import Arithmetic
 from tinyinject import override
-from main import App
-
+from src.package.protocols import Arithmetic
+from src.main import App
 
 
 class TestSum:
