@@ -25,4 +25,5 @@ distribution = true
 [tool.pdm.dev-dependencies]
 dev = [
     "pytest>=8.0.0",
+    "ruff>=0.2.1",
 ]
