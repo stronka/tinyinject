@@ -47,5 +47,3 @@ class TestRegistry:
                 return 42
 
         assert registry.get(ExampleCallable)() == 42
-
-

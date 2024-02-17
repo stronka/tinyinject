@@ -19,6 +19,7 @@ class AnotherType:
 class TestOverride:
     def test_case_descriptor_approach_replace_implementation_with_provided_one(self):
         with override(ExampleType, using=AnotherType):
+
             class Other:
                 dependency: ExampleType = Require(ExampleType)
 
@@ -26,6 +27,7 @@ class TestOverride:
 
     def test_case_descriptor_after_exit_then_back_to_original_type(self):
         with override(ExampleType, using=AnotherType):
+
             class Other:
                 dependency: ExampleType = Require(ExampleType)
 
@@ -33,6 +35,7 @@ class TestOverride:
 
     def test_case_decorator_then_replace_implementation_with_provided_one(self):
         with override(ExampleType, using=AnotherType):
+
             @require_kwargs(dependency=ExampleType)
             def func(*, dependency):
                 return dependency
@@ -41,6 +44,7 @@ class TestOverride:
 
     def test_case_decorator_after_exit_then_replace_implementation_with_original_one(self):
         with override(ExampleType, using=AnotherType):
+
             @require_kwargs(dependency=ExampleType)
             def func(*, dependency):
                 return dependency

@@ -19,7 +19,7 @@ from typing import Protocol
 class Arithmetic(Protocol):
     def sum(self, a: int, b: int) -> int:
         ...
-    
+
 
 # package/providers.py
 from tinyinject import di
@@ -46,7 +46,7 @@ from package.protocols import Arithmetic
 
 class App:
     _dependency: Arthmetic = Require(Arithmetic)
-    
+
     def format_sum(self, a: int, b: int):
         print(f"Sum of {a} and {b} is {self._dependency.sum(a, b)}")
 ```
@@ -74,8 +74,8 @@ from typing import Protocol
 class Sum(Protocol):
     def __call__(self, a: int, b: int) -> int:
         ...
-    
-    
+
+
 # package/providers.py
 from tinyinject import di
 from .protocols import Sum
@@ -97,7 +97,7 @@ from package.protocols import Sum
 
 class App:
     _sum: Sum = Require(Sum)
-    
+
     def format_sum(self, a: int, b: int) -> int:
         print(f"Sum of {a} and {b} is {self._sum(a, b)}")
 
@@ -119,9 +119,9 @@ from src.main import App
 class TestSum:
     def test_app_format_sum_always_call_sum_with_correct_parameters(self):
         spy = mock.MagicMock()
-        
+
         with override(Arithmetic, using=spy):
             App().format_sum(1, 2)
-            
+
         spy.sum.assert_called_with(1, 2)
 ```
