@@ -1,5 +1,9 @@
 from typing import Protocol
-from src.tinyinject import di, Require, require_kwargs, override
+
+from src.tinyinject import di
+from src.tinyinject import override
+from src.tinyinject import Require
+from src.tinyinject import require_kwargs
 
 
 class ExampleType(Protocol):
