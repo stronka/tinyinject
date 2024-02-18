@@ -23,7 +23,7 @@ class Arithmetic(Protocol):
 
 # package/providers.py
 from tinyinject import di
-from .protocols import Arithmetic
+from protocols import Arithmetic
 
 
 @di.implements(interface=Arithmetic)
@@ -40,12 +40,12 @@ from . import providers  # noqa
 ### Requesting dependencies via `Require` descriptor
 ```python
 # main.py
-from tinyinject import Require
+from tinyinject import di
 from package.protocols import Arithmetic
 
 
 class App:
-    _dependency: Arthmetic = Require(Arithmetic)
+    _dependency: Arthmetic = di.Require(Arithmetic)
 
     def format_sum(self, a: int, b: int):
         print(f"Sum of {a} and {b} is {self._dependency.sum(a, b)}")
@@ -55,11 +55,11 @@ class App:
 ### Requesting dependencies via `request_kwargs` decorator
 ```python
 # main.py
-from tinyinject import require_kwargs
+from tinyinject import di
 from package.protocols import Arithmetic
 
 
-@require_kwargs(dependency=Arithmetic)
+@di.require_kwargs(dependency=Arithmetic)
 def format_sum(self, a: int, b: int, *, dependency: Arithmetic):
     print(f"Sum of {a} and {b} is {dependency.sum(a, b)}")
 ```
@@ -91,12 +91,12 @@ from . import providers  # noqa
 
 
 # main.py
-from tinyinject import Require
+from tinyinject import di
 from package.protocols import Sum
 
 
 class App:
-    _sum: Sum = Require(Sum)
+    _sum: Sum = di.Require(Sum)
 
     def format_sum(self, a: int, b: int) -> int:
         print(f"Sum of {a} and {b} is {self._sum(a, b)}")
@@ -111,7 +111,7 @@ of the provider is necessary.
 ```python
 # test_sum.py
 from unittest import mock
-from tinyinject import override
+from tinyinject import di
 from src.package.protocols import Arithmetic
 from src.main import App
 
@@ -120,7 +120,7 @@ class TestSum:
     def test_app_format_sum_always_call_sum_with_correct_parameters(self):
         spy = mock.MagicMock()
 
-        with override(Arithmetic, using=spy):
+        with di.override(Arithmetic, using=spy):
             App().format_sum(1, 2)
 
         spy.sum.assert_called_with(1, 2)
