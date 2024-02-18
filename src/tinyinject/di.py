@@ -1,4 +1,5 @@
 import functools as fn
+from contextlib import contextmanager
 
 _registry_data = {}
 
@@ -41,3 +42,11 @@ def require_kwargs(**deps):
         return wrapper
 
     return decorator
+
+
+@contextmanager
+def override(interface, *, using: type | object):
+    previous = get(interface)
+    implements(interface=interface)(using)
+    yield
+    implements(interface=interface)(previous)
